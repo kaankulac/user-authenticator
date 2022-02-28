@@ -1,5 +1,4 @@
 const User = require('./User.js');
-const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const bcrypt = require('bcrypt');
 
@@ -29,11 +28,11 @@ passport.serializeUser((user,done) => {
     done(null,user.id)
 })
 
-passport.deserializeUser((id,done) => {
-    User.findOne({_id:id})
-    .then((err,user) => {
-        done(err,user)
-    })
-})
+passport.deserializeUser((id, done)=>{
+      User.findById(id).then((user) => {
+        done(null, user);
+      }).catch(done);
+
+  });
 }
 

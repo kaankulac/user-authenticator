@@ -36,6 +36,15 @@ function App() {
     }).then(res => setData(res.data))
   };
 
+  const logout = () => {
+    console.log('axios logout')
+    axios({
+      method:"POST",
+      withCredentials:true,
+      url:"http://localhost:4000/logout"
+    }).then(res => console.log(res))
+  }
+
   return (
     <div className="App">
       <div className="register">
@@ -57,8 +66,10 @@ function App() {
       <div className="getUser">
         <h1>Get User</h1>
           {data?"welcome "+data.username:null}
-
+      <button onClick={logout}>Logout</button>
       </div>
+
+
     </div>
   );
 }

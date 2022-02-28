@@ -28,8 +28,8 @@ app.use(cors({
 }))
 app.use(session({
     secret: 'secretcode',
-    resave: true,
-    saveUninitialized: true
+    resave: false,
+    saveUninitialized: false
 }));
 
 app.use(cookieParser('secretcode'));
@@ -45,8 +45,9 @@ app.post('/login', (req, res, next) => {
             if (!user) res.status(404).send('user not found');
             else {
                 req.login(user, err => {
-                    if (err) throw err;
-                    res.send(req.user);
+                    // if (err) throw err;
+                    console.log(req.user)
+                    res.status(200).send(req.user)
                 })
             }
         })(req, res, next)
@@ -76,6 +77,13 @@ app.post('/register', async (req, res) => {
 })
 app.get('/user', (req, res) => {
     res.send(req.user);
+})
+
+
+app.post('/logout',(req,res) => {
+    console.log('logout çalıştı')
+    req.logout();
+    res.status(200).send(req.session)
 })
 
 
