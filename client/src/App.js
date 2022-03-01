@@ -2,15 +2,18 @@ import './App.css';
 import React, { useState } from 'react';
 import axios from 'axios';
 
+
+
+
 function App() {
 
   const [registerUsername, setRegisterUsername] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const [data,setData] = useState("");
+  const [user,setData] = useState("");
 
-  const register = () => {
+  const register = () => { // post register information to api(localhost:4000/register)
     axios({
       method:"POST",
       data:{
@@ -24,7 +27,7 @@ function App() {
 
 
   };
-  const login = () => {
+  const login = () => { // post login information to api(localhost:4000/login)
     axios({
       method:"POST",
       data:{
@@ -33,16 +36,21 @@ function App() {
       },
       withCredentials:true,
       url:"http://localhost:4000/login"
-    }).then(res => setData(res.data))
+    }).then(res => {
+      setData(res.data.passport) // set user 
+      console.log(res.data)
+    })
   };
 
-  const logout = () => {
+  const logout = () => { // logout post
     console.log('axios logout')
     axios({
       method:"POST",
       withCredentials:true,
       url:"http://localhost:4000/logout"
-    }).then(res => console.log(res))
+    }).then(res => {
+      setData(null); // delete user information
+    })
   }
 
   return (
@@ -65,7 +73,7 @@ function App() {
 
       <div className="getUser">
         <h1>Get User</h1>
-          {data?"welcome "+data.username:null}
+          {user?"welcome "+user.username:null}
       <button onClick={logout}>Logout</button>
       </div>
 

@@ -7,10 +7,9 @@ module.exports = function(passport) {
     passport.use(
         new LocalStrategy((username,password,done) => {
             User.findOne({username:username},(err,user) => {
-                console.log(user);
                 if (err) throw err;
                 if(!user) return done(null,false);
-                bcrypt.compare(password,user.password, (err,result) => {
+                bcrypt.compare(password,user.password, (err,result) => { 
                     if(err) throw err;
                     if(result) {
                         return done(null,user);
@@ -24,11 +23,11 @@ module.exports = function(passport) {
 
 
 
-passport.serializeUser((user,done) => {
+passport.serializeUser((user,done) => { // serializing
     done(null,user.id)
 })
 
-passport.deserializeUser((id, done)=>{
+passport.deserializeUser((id, done)=>{ //deserializing
       User.findById(id).then((user) => {
         done(null, user);
       }).catch(done);

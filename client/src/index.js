@@ -2,11 +2,39 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import Member from './Member';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import axios from 'axios';
+
+
+async function requireAuth() {
+  await axios({
+    method:"GET",
+    withCredentials: true,
+    url:"http://localhost:4000/user"
+  })
+  .then(response => {
+      console.log(response.data.isAuthenticated)
+      if(response.data.isAuthenticated){
+          return true
+      }else {
+        return false
+      }
+  })
+}
+
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<App />} />
+      <Route path="/member"  element={requireAuth()?<Member/>:<Navigate to="/"/>} />
+    </Routes>
+
+
+  </BrowserRouter>
+
+  ,
   document.getElementById('root')
 );
 
