@@ -1,55 +1,66 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import { useSelector, useDispatch } from 'react-redux';
+import isAuth from './redux/actions/authAction';
 
 
 
 function App() {
+  const dispatch = useDispatch();
+  var data = useSelector(state => state.isAuthReducer);
+  
+
+  useEffect(() => {
+      data = dispatch(isAuth());
+
+  })
+
+
 
   const [registerUsername, setRegisterUsername] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const [user,setData] = useState("");
+  const [user, setData] = useState("");
 
   const register = () => { // post register information to api(localhost:4000/register)
     axios({
-      method:"POST",
-      data:{
+      method: "POST",
+      data: {
         registerUsername,
         registerPassword
       },
-      withCredentials:true,
-      url:"http://localhost:4000/register"
+      withCredentials: true,
+      url: "http://localhost:4000/register"
     })
-    .then(res => console.log(res))
+      .then(res => console.log(res))
 
 
   };
   const login = () => { // post login information to api(localhost:4000/login)
     axios({
-      method:"POST",
-      data:{
-        username:loginUsername,
-        password:loginPassword
+      method: "POST",
+      data: {
+        username: loginUsername,
+        password: loginPassword
       },
-      withCredentials:true,
-      url:"http://localhost:4000/login"
+      withCredentials: true,
+      url: "http://localhost:4000/login"
     }).then(res => {
       setData(res.data.passport) // set user 
-      console.log(res.data)
     })
   };
 
   const logout = () => { // logout post
     console.log('axios logout')
     axios({
-      method:"POST",
-      withCredentials:true,
-      url:"http://localhost:4000/logout"
+      method: "POST",
+      withCredentials: true,
+      url: "http://localhost:4000/logout"
     }).then(res => {
       setData(null); // delete user information
+
     })
   }
 
@@ -73,8 +84,8 @@ function App() {
 
       <div className="getUser">
         <h1>Get User</h1>
-          {user?"welcome "+user.username:null}
-      <button onClick={logout}>Logout</button>
+        {data.isAuthenticated? "welcome " + user?.username : null} {/*Since the user information is deleted before the isAuthenticated information, the user information appears on the interface as undefined.*/}
+        <button onClick={logout}>Logout</button>
       </div>
 
 
