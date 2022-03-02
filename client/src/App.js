@@ -10,9 +10,15 @@ function App() {
   const dispatch = useDispatch();
   var data = useSelector(state => state.isAuthReducer);
   
+    const [user, setData] = useState("");
 
   useEffect(() => {
       data = dispatch(isAuth());
+      axios({
+        method:"GET",
+        url:"http://localhost:4000/user",
+        withCredentials:true
+      }).then(res => setData(res.data.passport))
 
   })
 
@@ -22,7 +28,6 @@ function App() {
   const [registerPassword, setRegisterPassword] = useState("");
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const [user, setData] = useState("");
 
   const register = () => { // post register information to api(localhost:4000/register)
     axios({
@@ -86,6 +91,7 @@ function App() {
         <h1>Get User</h1>
         {data.isAuthenticated? "welcome " + user?.username : null} {/*Since the user information is deleted before the isAuthenticated information, the user information appears on the interface as undefined.*/}
         <button onClick={logout}>Logout</button>
+        <a href="/member">Member's only page </a>
       </div>
 
 
