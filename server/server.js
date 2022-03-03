@@ -13,7 +13,7 @@ const {createProxyMiddleware} = require('http-proxy-middleware');
 
 const app = express();
 
-mongoose.connect("mongodb+srv://kaankulac:234234234k@cluster0.5gqvf.mongodb.net/test1?retryWrites=true&w=majority", {  //connecting to mongodb
+mongoose.connect("mongodb+srv://<username>:<password>@cluster0.5gqvf.mongodb.net/<databasename>?retryWrites=true&w=majority", {  //connecting to mongodb
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
@@ -32,7 +32,7 @@ app.use(session({
     secret: 'secretcode', //cookie parser's secret code
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: "mongodb+srv://kaankulac:234234234k@cluster0.5gqvf.mongodb.net/test1?retryWrites=true&w=majority" }) //connecting to mongodb session store
+    store: MongoStore.create({ mongoUrl: "mongodb+srv://<username>:<password>@cluster0.5gqvf.mongodb.net/<databasename>?retryWrites=true&w=majority" }) //connecting to mongodb session store
 }));
 app.use(  // api middleware
     '/api',
