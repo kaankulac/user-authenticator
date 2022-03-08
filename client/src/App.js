@@ -8,7 +8,6 @@ import isAuth from './redux/actions/authAction';
 
 function App() {
   const dispatch = useDispatch();
-  var data = useSelector(state => state.isAuthReducer);
   
     const [user, setData] = useState("");
 
