@@ -1,4 +1,4 @@
-# user-authentication
+# user-authenticator
 user authenticator with passportjs,expressjs,nodejs,reactjs,axios
 ### Basic User Authentication System with MERN stack
 
